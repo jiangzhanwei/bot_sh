@@ -10,8 +10,8 @@ repo_path = Path(__file__).resolve().parent
 print("Repository:", repo_path)
 
 # 固定时间范围：2016-09-05 到 2025-09-26
-start_date = datetime(2022, 6, 1).date()
-end_date   = datetime(2023, 3, 11).date()
+start_date = datetime(2021, 6, 1).date()
+end_date   = datetime(2022, 6, 11).date()
 
 def safe_git(cmd, env=None):
     """执行 git 命令，若 index.lock 存在或出错则跳过"""
