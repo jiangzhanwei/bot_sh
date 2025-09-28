@@ -9,8 +9,9 @@ from pathlib import Path
 repo_path = Path(__file__).resolve().parent
 print("Repository:", repo_path)
 
-end_date = datetime.now().date()
-start_date = end_date - timedelta(days=365)
+# 固定时间范围：2016-09-05 到 2025-09-26
+start_date = datetime(2016, 9, 5).date()
+end_date   = datetime(2025, 9, 26).date()
 
 def safe_git(cmd, env=None):
     """执行 git 命令，若 index.lock 存在或出错则跳过"""
@@ -19,7 +20,6 @@ def safe_git(cmd, env=None):
         print(f"跳过命令 {' '.join(cmd)} —— index.lock 存在")
         return False
     try:
-        # 保留正常输出
         subprocess.run(cmd, env=env, check=True)
         return True
     except subprocess.CalledProcessError:
@@ -33,12 +33,12 @@ while current <= end_date:
     day_counter += 1
 
     # 每 10 天随机跳过 1 天
-    if day_counter % 10 == 0 and random.choice([True, False]):
+    if day_counter % 3 == 0 and random.choice([True, False]):
         print(f"跳过整天 {current}")
         current += timedelta(days=1)
         continue
 
-    commits_today = random.randint(10, 20)
+    commits_today = random.randint(1, 10)
     for _ in range(commits_today):
         # 随机当天时间
         h, m, s = random.randint(0, 23), random.randint(0, 59), random.randint(0, 59)
@@ -63,9 +63,6 @@ while current <= end_date:
         # 删除临时文件
         if file_path.exists():
             file_path.unlink()
-
-        # 随机短暂停
-        time.sleep(random.uniform(0.05, 0.2))
 
     current += timedelta(days=1)
 
